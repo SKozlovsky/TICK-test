@@ -19,7 +19,7 @@ class Shutdown(Resource):
 
 
 api.add_resource(Index, '/')
-api.add_resource(Shutdown, '/api/stop')
+api.add_resource(Shutdown, '/api/down')
 
 
 if __name__ == '__main__':

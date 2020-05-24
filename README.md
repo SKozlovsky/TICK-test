@@ -27,4 +27,4 @@ After triggering `api/down` and app container restarting the status will be chan
 * `docker-compose up --build -d` or `make start` to start all containers
 * wait some time while containers are starting and provisioning
 * `http://127.0.0.1:3000` in web browser to monitor Docker metrics from Grafana
-* `curl http://127.0.0.1:8000/api/down` (or use web browser) - to restart App container 
+* `curl http://127.0.0.1:5000/api/down` (or use web browser) - to restart App container 
