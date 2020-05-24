@@ -1,0 +1,52 @@
+version: "3.3"
+services:
+  app:
+    build: ./app
+    image: local-tick-test-app:lates
+    restart: always
+    ports:
+      - "5000:5000"
+
+  influxdb:
+    image: influxdb:latest
+    container_name: local-tick-test-influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=tick-test
+      - INFLUXDB_HTTP_AUTH_ENABLED=false
+    volumes:
+      - db-data:/var/lib/influxdb
+
+  telegraf:
+    image: telegraf:latest
+    container_name: local-tick-test-telegraf
+    restart: always
+    links:
+      - influxdb:influxdb
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: local-tick-test-grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    user: "0"
+    links:
+      - influxdb:influxdb
+    volumes:
+      - grafana-ds:/var/lib/grafana
+      - ./grafana/grafana-provisioning/:/etc/grafana/provisioning
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    depends_on:
+      - influxdb
+
+volumes:
+  db-data:
+  grafana-ds:

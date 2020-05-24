@@ -1,0 +1,9 @@
+apiVersion: 1
+datasources:
+  - name: DS_INFLUXDB_TELEGRAF
+    type: influxdb
+    access: proxy
+    database: tick-test
+    url: http://influxdb:8086
+    isDefault: true
+    editable: true
