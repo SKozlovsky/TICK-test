@@ -2,29 +2,25 @@ from flask import Flask
 from flask_restful import Resource, Api
 import os
 import signal
-from time import sleep
-
-
 
 app = Flask(__name__)
 api = Api(app)
 
 
-class HelloWorld(Resource):
+class Index(Resource):
     def get(self):
-        return {'hello': 'world'}
+        return {'Status': 'OK', 'AppName': 'TICK-test'}
 
 
-class shutdown(Resource):
+class Shutdown(Resource):
     def get(self):
-        print("shutdown")
+        print("Killing flask process ...")
         os.kill(1, signal.SIGTERM)
-        return {'goodby': 'worssssld'}
 
-api.add_resource(HelloWorld, '/')
-api.add_resource(shutdown, '/stop')
+
+api.add_resource(Index, '/')
+api.add_resource(Shutdown, '/stop')
 
 
 if __name__ == '__main__':
-    sleep(30)
     app.run(debug=True, host='0.0.0.0')
